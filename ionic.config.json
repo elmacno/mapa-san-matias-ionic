@@ -1,0 +1,8 @@
+{
+  "name": "mapa-san-matias-ionic",
+  "app_id": "",
+  "type": "ionic-angular",
+  "integrations": {
+    "cordova": {}
+  }
+}
