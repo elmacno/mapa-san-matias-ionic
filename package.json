@@ -11,6 +11,9 @@
     "ionic:build": "ionic-app-scripts build",
     "ionic:serve": "ionic-app-scripts serve"
   },
+  "config": {
+    "ionic_sass": "./config/sass.config.js"
+  },
   "dependencies": {
     "@angular/animations": "5.2.9",
     "@angular/common": "5.2.9",
@@ -37,7 +40,7 @@
     "zone.js": "0.8.20"
   },
   "devDependencies": {
-    "@ionic/app-scripts": "3.1.8",
+    "@ionic/app-scripts": "^3.1.8",
     "typescript": "~2.6.2"
   },
   "description": "An Ionic project"

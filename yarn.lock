@@ -187,7 +187,7 @@
   version "4.5.3"
   resolved "https://registry.yarnpkg.com/@ionic-native/status-bar/-/status-bar-4.5.3.tgz#e48d7a638e52887f59c761adff5ed5cf6d8fdb58"
 
-"@ionic/app-scripts@3.1.8":
+"@ionic/app-scripts@^3.1.8":
   version "3.1.8"
   resolved "https://registry.yarnpkg.com/@ionic/app-scripts/-/app-scripts-3.1.8.tgz#503a431efe6840fa632b42e5bd2c00095fa3e6b0"
   dependencies:

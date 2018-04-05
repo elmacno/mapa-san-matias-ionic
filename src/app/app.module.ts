@@ -1,11 +1,23 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { ErrorHandler, NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { IonicApp, IonicErrorHandler, IonicModule } from 'ionic-angular';
 import { SplashScreen } from '@ionic-native/splash-screen';
 import { StatusBar } from '@ionic-native/status-bar';
+import { AngularFireModule } from 'angularfire2';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
+
+export const firebaseConfig = {
+  apiKey: "AIzaSyBmd7oWUcErKHPSSG4WRShfK7WvYjLo5Wo",
+  authDomain: "mapa-san-matias.firebaseapp.com",
+  databaseURL: "https://mapa-san-matias.firebaseio.com",
+  projectId: "mapa-san-matias",
+  storageBucket: "mapa-san-matias.appspot.com",
+  messagingSenderId: "781656691682"
+};
 
 @NgModule({
   declarations: [
@@ -14,7 +26,10 @@ import { HomePage } from '../pages/home/home';
   ],
   imports: [
     BrowserModule,
-    IonicModule.forRoot(MyApp)
+    IonicModule.forRoot(MyApp),
+    AngularFireModule.initializeApp(firebaseConfig),
+    AngularFirestoreModule,
+    HttpClientModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
