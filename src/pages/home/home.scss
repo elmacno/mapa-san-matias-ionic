@@ -1,8 +1,22 @@
 @import 'mapbox-gl';
 
 page-home {
-  #map {
-    height: 100%;
-    width: 100%;
+  img {
+    max-width: 250px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  ion-list {
+    ion-item-sliding {
+      ion-item {
+        align-items: baseline !important;
+      }
+      ion-item-options {
+        button {
+          min-width: 68px;
+        }
+      }
+    }
   }
 }

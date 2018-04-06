@@ -8,7 +8,10 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { MyApp } from './app.component';
+import { ComponentsModule } from '../components/components.module';
+import { PipesModule } from '../pipes/pipes.module';
 import { HomePage } from '../pages/home/home';
+import { LotsProvider } from '../providers/lots/lots';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBmd7oWUcErKHPSSG4WRShfK7WvYjLo5Wo",
@@ -29,7 +32,9 @@ export const firebaseConfig = {
     IonicModule.forRoot(MyApp),
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
-    HttpClientModule
+    HttpClientModule,
+    ComponentsModule,
+    PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -39,7 +44,8 @@ export const firebaseConfig = {
   providers: [
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    {provide: ErrorHandler, useClass: IonicErrorHandler},
+    LotsProvider
   ]
 })
 export class AppModule {}

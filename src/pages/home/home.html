@@ -1,9 +1,43 @@
 <!-- <div id='map'></div> -->
 <ion-content>
+  <div text-center>
+    <img src="/assets/imgs/mapa-san-matias.svg">
+  </div>
+  <ion-item padding>
+    <ion-label>Número de lote</ion-label>
+    <ion-input type="number"
+               min="1" max="1268"
+               [(ngModel)]="lotNumber"></ion-input>
+ </ion-item>
   <ion-list>
-    <ion-list-header>Lots</ion-list-header>
-    <ion-item *ngFor="let lot of lots | async">
-      Area {{ lot.area}}, Lote {{ lot.number }}
-    </ion-item>
+    <ion-item-sliding *ngFor="let lot of lots | filterBy:{partialLotNumber:lotNumber}; let lotIndex = index">
+      <ion-item>
+        <ion-icon item-start name="pin"></ion-icon>
+        <ion-item no-lines>
+          <h2>Lote {{ lot.number }}</h2>
+          <p>Area {{ lot.area}}</p>
+          <button ion-button clear item-end (click)="toggleDetails(lotIndex)">{{ showLotDetails[lotIndex] ? 'Ocultar' : 'Detalles' }}</button>
+        </ion-item>
+        <expandable [expanded]="showLotDetails[lotIndex]">
+          <ion-card>
+            <img [src]="buildStaticImageUrl(lot)">
+            <ion-item no-lines>
+              <span item-start>18 min (1.2km)</span>
+              <button item-end ion-button clear icon-left>
+                <ion-icon name="navigate"></ion-icon>
+                Ir
+              </button>
+            </ion-item>
+          </ion-card>
+        </expandable>
+      </ion-item>
+      <ion-item-options side="right">
+        <button ion-button color="primary">
+          <ion-icon name="navigate">
+            Ir
+          </ion-icon>
+        </button>
+      </ion-item-options>
+    </ion-item-sliding>
   </ion-list>
 </ion-content>
