@@ -7,10 +7,11 @@
     <ion-label>Número de lote</ion-label>
     <ion-input type="number"
                min="1" max="1268"
-               [(ngModel)]="lotNumber"></ion-input>
+               [(ngModel)]="lotNumber"
+               (input)="onLotNumberChange()"></ion-input>
  </ion-item>
   <ion-list>
-    <ion-item-sliding *ngFor="let lot of lots | filterBy:{partialLotNumber:lotNumber}; let lotIndex = index">
+    <ion-item-sliding *ngFor="let lot of lots.lots; let lotIndex = index">
       <ion-item>
         <ion-icon item-start name="pin"></ion-icon>
         <ion-item no-lines>
@@ -20,7 +21,7 @@
         </ion-item>
         <expandable [expanded]="showLotDetails[lotIndex]">
           <ion-card>
-            <img [src]="buildStaticImageUrl(lot)">
+            <img [src]="showLotDetails[lotIndex] ? buildStaticImageUrl(lot) : '/assets/imgs/map-placeholder.png'">
             <ion-item no-lines>
               <span item-start>18 min (1.2km)</span>
               <button item-end ion-button clear icon-left>
@@ -40,4 +41,7 @@
       </ion-item-options>
     </ion-item-sliding>
   </ion-list>
+  <ion-infinite-scroll (ionInfinite)="addLots($event)">
+   <ion-infinite-scroll-content></ion-infinite-scroll-content>
+  </ion-infinite-scroll>
 </ion-content>

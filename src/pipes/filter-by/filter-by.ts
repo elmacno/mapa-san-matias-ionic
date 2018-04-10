@@ -4,17 +4,18 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'filterBy',
 })
 export class FilterByPipe implements PipeTransform {
-  /**
-   * Takes a value and makes it lowercase.
-   */
-  transform(items: any[], terms: {partialLotNumber: number}) {
+  transform(items: any[], terms: {lotNumber: string}) {
     if (!items) return items;
+    let lot: number;
+    if (terms.lotNumber) {
+      lot = parseInt(terms.lotNumber);
+    }
     return items.filter((item) => {
       let result = false;
-      if (terms.partialLotNumber) {
-        result = item.number.toString().includes(terms.partialLotNumber.toString());
+      if (terms.lotNumber) {
+        result = (item.number+'').includes(terms.lotNumber);
       }
       return result;
-    });
+    })
   }
 }
