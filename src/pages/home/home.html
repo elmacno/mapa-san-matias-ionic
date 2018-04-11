@@ -14,19 +14,23 @@
     <ion-item-sliding *ngFor="let lot of lots.lots; let lotIndex = index">
       <ion-item>
         <ion-icon item-start name="pin"></ion-icon>
-        <ion-item no-lines>
-          <h2>Lote {{ lot.number }}</h2>
-          <p>Area {{ lot.area}}</p>
-          <button ion-button clear item-end (click)="toggleDetails(lotIndex)">{{ showLotDetails[lotIndex] ? 'Ocultar' : 'Detalles' }}</button>
-        </ion-item>
-        <expandable [expanded]="showLotDetails[lotIndex]">
+        <h2>Lote {{ lot.number }}</h2>
+        <p>Area {{ lot.area}}</p>
+        <button ion-button clear item-end (click)="toggleDetails(lotIndex)">{{ itemsMetadata[lotIndex].show ? 'Ocultar' : 'Detalles' }}</button>
+        <expandable [expanded]="itemsMetadata[lotIndex].show">
           <ion-card>
-            <img [src]="showLotDetails[lotIndex] ? buildStaticImageUrl(lot) : '/assets/imgs/map-placeholder.png'">
+            <img [src]="mapboxProvider.imageUrl(lot.coords)" [hidden]="!itemsMetadata[lotIndex].imageLoaded" (load)="itemsMetadata[lotIndex].imageLoaded = true">
+            <img src="/assets/imgs/map-placeholder.png" [hidden]="itemsMetadata[lotIndex].imageLoaded">
             <ion-item no-lines>
-              <span item-start>18 min (1.2km)</span>
-              <button item-end ion-button clear icon-left>
-                <ion-icon name="navigate"></ion-icon>
-                Ir
+              <span item-start [hidden]="itemsMetadata[lotIndex].time || itemsMetadata[lotIndex].distance">
+                <ion-spinner name="dots"></ion-spinner>
+              </span>
+              <span item-start [hidden]="!(itemsMetadata[lotIndex].time && itemsMetadata[lotIndex].distance)">
+                <strong class="time">{{ itemsMetadata[lotIndex].time }}</strong>
+                <strong class="distance">({{ itemsMetadata[lotIndex].distance }})</strong>
+              </span>
+              <button item-end ion-button class="go">
+                <strong class="go">Ir</strong>
               </button>
             </ion-item>
           </ion-card>
@@ -35,8 +39,8 @@
       <ion-item-options side="right">
         <button ion-button color="primary">
           <ion-icon name="navigate">
-            Ir
           </ion-icon>
+          Ir
         </button>
       </ion-item-options>
     </ion-item-sliding>

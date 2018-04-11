@@ -1,8 +1,16 @@
 import { Component } from '@angular/core';
-import { NavController, Events, LoadingController, Loading } from 'ionic-angular';
-//import * as mapboxgl from 'mapbox-gl';
+import { NavController } from 'ionic-angular';
 
 import { LotsProvider, FetchLotResults } from '../../providers/lots/lots';
+import { MapboxProvider } from '../../providers/mapbox/mapbox';
+import { LocationProvider } from '../../providers/location/location';
+
+class ItemMetadata {
+  show: boolean = false;
+  imageLoaded: boolean = false;
+  distance: number;
+  time: number;
+}
 
 @Component({
   selector: 'page-home',
@@ -11,27 +19,28 @@ import { LotsProvider, FetchLotResults } from '../../providers/lots/lots';
 export class HomePage {
   lots: FetchLotResults;
   lotNumber: number;
-  showLotDetails: boolean[];
-  loading: Loading;
+  itemsMetadata: ItemMetadata[];
   // map: mapboxgl.Map;
   // container: string = 'map';
   // style: string = 'mapbox://styles/mapbox/streets-v10';
 
   constructor(public navCtrl: NavController,
-              public events: Events,
-              private lotsProvider: LotsProvider) {
+              private lotsProvider: LotsProvider,
+              private mapboxProvider: MapboxProvider,
+              private locationProvider: LocationProvider) {
     this.lots = {
       lots: [],
       pageNum: -1,
       totalPages: 1
     }
-    this.showLotDetails = [];
-    //mapboxgl.accessToken = 'pk.eyJ1IjoiZWxtYWNubyIsImEiOiJjamVvbzUwc3cwNHY0MzNwY3I2eTFiMWMzIn0.iQaY-GcYvY-nArBoyocPNQ';
+    this.itemsMetadata = [];
   }
 
   ionViewDidLoad() {
-    this.events
-      .subscribe('lots:ready', () => {
+
+    this.lotsProvider
+      .ready()
+      .then(() => {
         this.fetchMoreLots();
       });
   //   this.map = new mapboxgl.Map({
@@ -57,8 +66,8 @@ export class HomePage {
       this.lots.pageNum = moreLots.pageNum;
       this.lots.totalPages = moreLots.totalPages;
       for (let i = 0; i < this.lots.lots.length; i++) {
-        if (i == this.showLotDetails.length) {
-          this.showLotDetails.push(false);
+        if (i == this.itemsMetadata.length) {
+          this.itemsMetadata.push(new ItemMetadata());
         }
       }
     }
@@ -75,15 +84,21 @@ export class HomePage {
       pageNum: -1,
       totalPages: 1
     };
-    this.showLotDetails = [];
+    this.itemsMetadata = [];
     this.fetchMoreLots();
   }
 
   toggleDetails(lotIndex) {
-    this.showLotDetails[lotIndex] = !this.showLotDetails[lotIndex];
-  }
-
-  buildStaticImageUrl(lot) {
-    return `https://api.mapbox.com/styles/v1/mapbox/satellite-streets-v10/static/url-https%3A%2F%2Fmaps.google.com%2Fmapfiles%2Fms%2Ficons%2Fred.png(${lot.coords.longitude},${lot.coords.latitude})/${lot.coords.longitude},${lot.coords.latitude},18.0,0,0/600x400?access_token=pk.eyJ1IjoiZWxtYWNubyIsImEiOiJjamVvbzUwc3cwNHY0MzNwY3I2eTFiMWMzIn0.iQaY-GcYvY-nArBoyocPNQ`
+    this.itemsMetadata[lotIndex].show = !this.itemsMetadata[lotIndex].show;
+    this.locationProvider
+      .ready()
+      .then(() => {
+        this.mapboxProvider
+          .getETA(this.lots.lots[lotIndex].coords)
+          .subscribe(({distance, time}) => {
+            this.itemsMetadata[lotIndex].distance = distance;
+            this.itemsMetadata[lotIndex].time = time;
+          });
+      });
   }
 }

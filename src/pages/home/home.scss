@@ -11,6 +11,18 @@ page-home {
     ion-item-sliding {
       ion-item {
         align-items: baseline !important;
+
+        .time {
+          color: #488aff
+        }
+
+        .distance {
+          color: #488aff
+        }
+
+        .go {
+          min-width: 30px;
+        }
       }
       ion-item-options {
         button {

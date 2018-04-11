@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Events } from 'ionic-angular';
 
 export interface Lot {
   area: number,
@@ -43,10 +42,19 @@ class FetchLotResultsImpl implements FetchLotResults {
 export class LotsProvider {
   lots: Lot[];
 
-  constructor(public http: HttpClient, public events: Events) {
-    http.get('/assets/lot_coordinates.json').subscribe((data: Lot[]) => {
-      this.lots = data;
-      events.publish('lots:ready');
+  constructor(private http: HttpClient) {
+  }
+
+  ready(): Promise<boolean> {
+    return new Promise((resolve) => {
+      if (this.lots) {
+        resolve(true);
+      } else {
+        this.http.get('/assets/lot_coordinates.json').subscribe((data: Lot[]) => {
+          this.lots = data;
+          resolve(true);
+        });
+      }
     });
   }
 
