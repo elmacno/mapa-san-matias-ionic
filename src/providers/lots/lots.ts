@@ -50,7 +50,7 @@ export class LotsProvider {
       if (this.lots) {
         resolve(true);
       } else {
-        this.http.get('/assets/lot_coordinates.json').subscribe((data: Lot[]) => {
+        this.http.get('assets/lot_coordinates.json').subscribe((data: Lot[]) => {
           this.lots = data;
           resolve(true);
         });

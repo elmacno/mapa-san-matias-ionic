@@ -90,15 +90,18 @@ export class HomePage {
 
   toggleDetails(lotIndex) {
     this.itemsMetadata[lotIndex].show = !this.itemsMetadata[lotIndex].show;
-    this.locationProvider
-      .ready()
-      .then(() => {
-        this.mapboxProvider
-          .getETA(this.lots.lots[lotIndex].coords)
-          .subscribe(({distance, time}) => {
-            this.itemsMetadata[lotIndex].distance = distance;
-            this.itemsMetadata[lotIndex].time = time;
-          });
-      });
+    if (this.itemsMetadata[lotIndex].show &&
+        !(this.itemsMetadata[lotIndex].distance || this.itemsMetadata[lotIndex].time)) {
+      this.locationProvider
+        .ready()
+        .then(() => {
+          this.mapboxProvider
+            .getETA(this.lots.lots[lotIndex].coords)
+            .subscribe(({distance, time}) => {
+              this.itemsMetadata[lotIndex].distance = distance;
+              this.itemsMetadata[lotIndex].time = time;
+            });
+        });
+    }
   }
 }

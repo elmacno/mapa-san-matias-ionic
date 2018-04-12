@@ -1,7 +1,7 @@
 <!-- <div id='map'></div> -->
 <ion-content>
   <div text-center>
-    <img src="/assets/imgs/mapa-san-matias.svg">
+    <img src="assets/imgs/mapa-san-matias.svg">
   </div>
   <ion-item padding>
     <ion-label>Número de lote</ion-label>
@@ -20,7 +20,7 @@
         <expandable [expanded]="itemsMetadata[lotIndex].show">
           <ion-card>
             <img [src]="mapboxProvider.imageUrl(lot.coords)" [hidden]="!itemsMetadata[lotIndex].imageLoaded" (load)="itemsMetadata[lotIndex].imageLoaded = true">
-            <img src="/assets/imgs/map-placeholder.png" [hidden]="itemsMetadata[lotIndex].imageLoaded">
+            <img src="assets/imgs/map-placeholder.png" [hidden]="itemsMetadata[lotIndex].imageLoaded">
             <ion-item no-lines>
               <span item-start [hidden]="itemsMetadata[lotIndex].time || itemsMetadata[lotIndex].distance">
                 <ion-spinner name="dots"></ion-spinner>
