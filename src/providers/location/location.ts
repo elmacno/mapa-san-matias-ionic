@@ -1,7 +1,5 @@
-import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
-import { Events } from 'ionic-angular';
 
 @Injectable()
 export class LocationProvider {
@@ -10,8 +8,7 @@ export class LocationProvider {
     current?: {latitude: number, longitude: number}
   };
 
-  constructor(private geolocation: Geolocation,
-              private events: Events) {
+  constructor(private geolocation: Geolocation) {
     this.position = {
       previous: {latitude: null, longitude: null},
       current: {latitude: null, longitude: null}

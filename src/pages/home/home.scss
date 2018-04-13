@@ -29,6 +29,11 @@ page-home {
           min-width: 68px;
         }
       }
+      .no-padding {
+        .label {
+          margin: 6px 4px 6px 0;
+        }
+      }
     }
   }
 }

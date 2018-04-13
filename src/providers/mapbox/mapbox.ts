@@ -1,6 +1,5 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
-import { Geolocation } from '@ionic-native/geolocation';
 import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/map';
 import * as mapboxgl from 'mapbox-gl';

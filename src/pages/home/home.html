@@ -12,11 +12,13 @@
  </ion-item>
   <ion-list>
     <ion-item-sliding *ngFor="let lot of lots.lots; let lotIndex = index">
-      <ion-item>
-        <ion-icon item-start name="pin"></ion-icon>
-        <h2>Lote {{ lot.number }}</h2>
-        <p>Area {{ lot.area}}</p>
-        <button ion-button clear item-end (click)="toggleDetails(lotIndex)">{{ itemsMetadata[lotIndex].show ? 'Ocultar' : 'Detalles' }}</button>
+      <ion-item class="no-padding">
+        <ion-item  no-lines>
+          <ion-icon item-start name="pin"></ion-icon>
+          <h2>Lote {{ lot.number }}</h2>
+          <p>Area {{ lot.area}}</p>
+          <button ion-button clear item-end (click)="toggleDetails(lotIndex)">{{ itemsMetadata[lotIndex].show ? 'Ocultar' : 'Detalles' }}</button>
+        </ion-item>
         <expandable [expanded]="itemsMetadata[lotIndex].show">
           <ion-card>
             <img [src]="mapboxProvider.imageUrl(lot.coords)" [hidden]="!itemsMetadata[lotIndex].imageLoaded" (load)="itemsMetadata[lotIndex].imageLoaded = true">
@@ -26,8 +28,8 @@
                 <ion-spinner name="dots"></ion-spinner>
               </span>
               <span item-start [hidden]="!(itemsMetadata[lotIndex].time && itemsMetadata[lotIndex].distance)">
-                <strong class="time">{{ itemsMetadata[lotIndex].time }}</strong>
-                <strong class="distance">({{ itemsMetadata[lotIndex].distance }})</strong>
+                <strong class="time">{{ itemsMetadata[lotIndex].time }}min</strong>
+                <strong class="distance">({{ itemsMetadata[lotIndex].distance }}km)</strong>
               </span>
               <button item-end ion-button class="go">
                 <strong class="go">Ir</strong>

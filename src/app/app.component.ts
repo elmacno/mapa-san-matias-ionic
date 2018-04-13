@@ -18,12 +18,14 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
-      if (!platform.is('mobile')) {
+      if (platform.is('android')) {
         diagnostic.requestRuntimePermission(diagnostic.permission.ACCESS_FINE_LOCATION)
-          .then((data) => console.log('Fine location authorization result:', data))
-          .then(() => {
+          .then((data) => {
+            console.log('Fine location authorization result:', data)
             diagnostic.requestRuntimePermission(diagnostic.permission.ACCESS_COARSE_LOCATION)
-              .then((data) => console.log('Coarse location authorization result:', data));
+              .then((data) => {
+                console.log('Coarse location authorization result:', data)
+              });
           });
       }
     });
