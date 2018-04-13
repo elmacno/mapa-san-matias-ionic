@@ -78,4 +78,11 @@ export class LotsProvider {
     }
     return results;
   }
+
+  getLot(lotNumber: number) {
+    if (lotNumber < 1 || lotNumber > this.lots.length) {
+      throw "Lot is out of range";
+    }
+    return this.lots[lotNumber - 1];
+  }
 }

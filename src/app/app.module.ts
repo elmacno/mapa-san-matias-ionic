@@ -12,8 +12,7 @@ import { MyApp } from './app.component';
 import { ComponentsModule } from '../components/components.module';
 import { ProvidersModule } from '../providers/providers.module';
 import { PipesModule } from '../pipes/pipes.module';
-
-import { HomePage } from '../pages/home/home';
+import { PagesModule } from '../pages/pages.module';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBmd7oWUcErKHPSSG4WRShfK7WvYjLo5Wo",
@@ -26,8 +25,7 @@ export const firebaseConfig = {
 
 @NgModule({
   declarations: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   imports: [
     BrowserModule,
@@ -35,14 +33,14 @@ export const firebaseConfig = {
     AngularFireModule.initializeApp(firebaseConfig),
     AngularFirestoreModule,
     HttpClientModule,
+    PagesModule,
     ComponentsModule,
     ProvidersModule,
     PipesModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [
-    MyApp,
-    HomePage
+    MyApp
   ],
   providers: [
     StatusBar,

@@ -18,7 +18,7 @@ export class MyApp {
     platform.ready().then(() => {
       statusBar.styleDefault();
       splashScreen.hide();
-      if (platform.is('android')) {
+      if (platform.is('cordova')) {
         diagnostic.requestRuntimePermission(diagnostic.permission.ACCESS_FINE_LOCATION)
           .then((data) => {
             console.log('Fine location authorization result:', data)

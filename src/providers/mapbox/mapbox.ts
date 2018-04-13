@@ -4,7 +4,7 @@ import { Observable } from 'rxjs/observable';
 import 'rxjs/add/operator/map';
 import * as mapboxgl from 'mapbox-gl';
 
-import { LocationProvider } from '../location/location';
+import { LocationProvider, FALLBACK_POSITION } from '../location/location';
 
 const MAPBOX_URL = 'https://api.mapbox.com';
 const DIRECTIONS_URL = `${MAPBOX_URL}/directions/v5/mapbox/driving`;
@@ -36,5 +36,27 @@ export class MapboxProvider {
       .map((result: any) => {
         return {distance: Math.round(result.routes[0].distance / 10) / 100, time: Math.ceil(result.routes[0].duration / 60)};
       });
+  }
+
+  createMap(settings: any) {
+    settings.center = [
+      FALLBACK_POSITION.longitude,
+      FALLBACK_POSITION.latitude
+    ];
+    let map = new mapboxgl.Map(settings);
+    this.location
+      .ready()
+      .then(() => {
+        console.log('moving center to:', this.location.get());
+        map.on('load', () => {
+          map.flyTo({
+            center: [
+              this.location.get().longitude,
+              this.location.get().latitude
+            ]
+          });
+        });
+      });
+    return map;
   }
 }

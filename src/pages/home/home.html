@@ -31,7 +31,7 @@
                 <strong class="time">{{ itemsMetadata[lotIndex].time }}min</strong>
                 <strong class="distance">({{ itemsMetadata[lotIndex].distance }}km)</strong>
               </span>
-              <button item-end ion-button class="go">
+              <button item-end ion-button class="go" (click)="navigateTo(lotIndex + 1)">
                 <strong class="go">Ir</strong>
               </button>
             </ion-item>
@@ -40,7 +40,7 @@
       </ion-item>
       <ion-item-options side="right">
         <button ion-button color="primary">
-          <ion-icon name="navigate">
+          <ion-icon name="navigate"  (click)="navigateTo(lotIndex + 1)">
           </ion-icon>
           Ir
         </button>

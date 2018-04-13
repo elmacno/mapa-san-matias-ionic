@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 
+export const FALLBACK_POSITION = {
+  latitude: -34.360894,
+  longitude: -58.750980
+};
+
 @Injectable()
 export class LocationProvider {
   position: {

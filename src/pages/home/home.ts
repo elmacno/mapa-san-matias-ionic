@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavController } from 'ionic-angular';
+import { IonicPage, NavController } from 'ionic-angular';
 
-import { LotsProvider, FetchLotResults } from '../../providers/lots/lots';
+import { LotsProvider, FetchLotResults, Lot } from '../../providers/lots/lots';
 import { MapboxProvider } from '../../providers/mapbox/mapbox';
 import { LocationProvider } from '../../providers/location/location';
+import { MapPage } from '../map/map';
 
 class ItemMetadata {
   show: boolean = false;
@@ -12,6 +13,7 @@ class ItemMetadata {
   time: number;
 }
 
+@IonicPage()
 @Component({
   selector: 'page-home',
   templateUrl: 'home.html'
@@ -20,9 +22,6 @@ export class HomePage {
   lots: FetchLotResults;
   lotNumber: number;
   itemsMetadata: ItemMetadata[];
-  // map: mapboxgl.Map;
-  // container: string = 'map';
-  // style: string = 'mapbox://styles/mapbox/streets-v10';
 
   constructor(public navCtrl: NavController,
               private lotsProvider: LotsProvider,
@@ -43,12 +42,6 @@ export class HomePage {
       .then(() => {
         this.fetchMoreLots();
       });
-  //   this.map = new mapboxgl.Map({
-  //     container: this.container,
-  //     style: this.style,
-  //     zoom: 16,
-  //     center: [-58.75139, -34.36074]
-  //   });
   }
 
   fetchMoreLots() {
@@ -103,5 +96,9 @@ export class HomePage {
             });
         });
     }
+  }
+
+  navigateTo(lotNumber: number) {
+    this.navCtrl.push(MapPage, {lotNumber: lotNumber});
   }
 }
