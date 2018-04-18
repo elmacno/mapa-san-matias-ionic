@@ -1,6 +1,11 @@
-<ion-header>
-  <ion-navbar>
-    <ion-title>map</ion-title>
-  </ion-navbar>
-</ion-header>
-<div id="map" ion-fixed></div>
+<ion-toolbar>
+  <ion-navbar></ion-navbar>
+</ion-toolbar>
+<ion-content>
+  <div class="map-container" ion-fixed>
+    <div id="map"></div>
+  </div>
+  <ion-fab bottom right *ngIf="!isNavigating()">
+    <button ion-fab (click)="startNavigating()" [disabled]="!canNavigate()">Ir</button>
+  </ion-fab>
+</ion-content>

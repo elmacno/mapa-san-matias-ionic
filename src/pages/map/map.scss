@@ -1,17 +1,29 @@
-ion-app.md {
-  page-map {
+page-map {
+  .map-container {
+    top: 0;
+    right: 0;
+    bottom: 0;
+    left: 0;
+
     #map {
-      margin-top: $toolbar-md-height;
-      height: calc(100% - #{$toolbar-md-height});
+      width: 100%;
+      height: calc(100%);
     }
   }
 }
 
 ion-app.ios {
   page-map {
-    #map {
+    .map-container {
       margin-top: $toolbar-ios-height;
-      height: calc(100% - #{$toolbar-ios-height});
+    }
+  }
+}
+
+ion-app.md {
+  page-map {
+    .map-container {
+      margin-top: $toolbar-md-height;
     }
   }
 }

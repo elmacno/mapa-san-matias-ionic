@@ -44,6 +44,8 @@ const DEFAULT_ROUTE_LAYER = {
 export class MapProvider {
   map: mapboxgl.Map;
   markers: {current: mapboxgl.Marker, destination: mapboxgl.Marker };
+  routeIsReady: boolean = false;
+  isNavigating: boolean = false;
 
   constructor(private locationProvider: LocationProvider,
               private mapboxProvider: MapboxProvider,
@@ -71,8 +73,8 @@ export class MapProvider {
             });
             this.map.addLayer(layerSettings);
             this.fitWholeRouteinMap(layerSettings.source.data.geometry.coordinates);
-            this.markers.current = new mapboxgl.Marker(this.createDestinationElement()).setLngLat([to.longitude, to.latitude]).addTo(this.map);
-            this.markers.current = new mapboxgl.Marker().setLngLat([to.longitude, to.latitude]).addTo(this.map);
+            this.markers.destination = new mapboxgl.Marker(this.createDestinationElement()).setLngLat([to.longitude, to.latitude]).addTo(this.map);
+            this.routeIsReady = true;
           });
       });
   }
@@ -92,34 +94,31 @@ export class MapProvider {
       [min.longitude, min.latitude],
       [max.longitude, max.latitude]
     ], {
-      padding: 20
+      padding: 40
     });
+  }
+
+  updateCurrentPositionMarker() {
+    let position = this.locationProvider.get();
+    if (!this.markers.current) {
+      this.markers.current = new mapboxgl.Marker(this.createCurrentPositionElement()).setLngLat([position.longitude, position.latitude]).addTo(this.map);
+    }
+    this.markers.current.setLngLat([position.longitude, position.latitude]);
   }
 
   drawCurrentPositionMarker() {
     this.locationProvider
       .ready()
-      .then(() => {
-        let position = this.locationProvider.get();
-        if (!this.markers.current) {
-          this.markers.current = new mapboxgl.Marker(this.createCurrentPositionElement()).setLngLat([position.longitude, position.latitude]).addTo(this.map);
-        }
-        this.markers.current.setLngLat([position.longitude, position.latitude]);
-      });
+      .then(() => this.updateCurrentPositionMarker());
     this.events
-      .subscribe('location:update', () => {
-        let position = this.locationProvider.get();
-        if (!this.markers.current) {
-          this.markers.current = new mapboxgl.Marker(this.createCurrentPositionElement()).setLngLat([position.longitude, position.latitude]).addTo(this.map);
-        }
-        this.markers.current.setLngLat([position.longitude, position.latitude]);
-      })
+      .subscribe('location:update', () => this.updateCurrentPositionMarker());
   }
 
   createCurrentPositionElement() {
     let element = document.createElement('div');
     element.style.backgroundImage = "url(assets/imgs/arrow.png)";
     element.style.width = '23px';
+    element.style.height = '28px';
     return element;
   }
 
@@ -127,7 +126,30 @@ export class MapProvider {
     let element = document.createElement('div');
     element.style.backgroundImage = "url(assets/imgs/finish.png)";
     element.style.width = '23px';
-    element.style.transform = 'translateY(50%)';
+    element.style.height = '68px';
+    //element.style.transform = 'translateY(-50%)';
+    element.className = 'destination-marker';
     return element;
+  }
+
+  startNavigating() {
+    this.isNavigating = true;
+    this.map.easeTo({
+      center: [this.locationProvider.get().longitude, this.locationProvider.get().latitude],
+      zoom: 18
+    })
+  }
+
+  canNavigate() {
+    return new Promise((resolve) => {
+      let waitForRoute = () => {
+        if (!this.routeIsReady) {
+          setTimeout(waitForRoute, 500);
+        } else {
+          resolve(true);
+        }
+      }
+      waitForRoute();
+    });
   }
 }

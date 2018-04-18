@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
-import * as mapboxgl from 'mapbox-gl';
 
 import { MapProvider } from '../../providers/map/map';
 import { LotsProvider, Lot } from '../../providers/lots/lots';
@@ -12,7 +11,6 @@ import { LotsProvider, Lot } from '../../providers/lots/lots';
 })
 export class MapPage {
   lot: Lot;
-  map: mapboxgl.Map;
 
   constructor(private navParams: NavParams,
               private mapProvider: MapProvider,
@@ -33,4 +31,15 @@ export class MapPage {
       });
   }
 
+  isNavigating() {
+    return this.mapProvider.isNavigating;
+  }
+
+  startNavigating() {
+    this.mapProvider.startNavigating();
+  }
+
+  canNavigate() {
+    this.mapProvider.canNavigate();
+  }
 }
