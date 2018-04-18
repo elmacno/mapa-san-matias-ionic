@@ -1,6 +1,5 @@
 import { Component } from '@angular/core';
 import { IonicPage, NavParams } from 'ionic-angular';
-import * as mapboxgl from 'mapbox-gl';
 
 import { MapProvider } from '../../providers/map/map';
 import { LotsProvider, Lot } from '../../providers/lots/lots';
@@ -12,7 +11,7 @@ import { LotsProvider, Lot } from '../../providers/lots/lots';
 })
 export class MapPage {
   lot: Lot;
-  map: mapboxgl.Map;
+  canNavigate: boolean = false;
 
   constructor(private navParams: NavParams,
               private mapProvider: MapProvider,
@@ -27,10 +26,19 @@ export class MapPage {
         try {
           this.lot = this.lotsProvider.getLot(this.navParams.get('lotNumber'));
           this.mapProvider.plotDirections(this.lot.coords);
+          this.mapProvider.canNavigate()
+            .then(() => this.canNavigate = true);
         } catch(error) {
           console.log(error);
         }
       });
   }
 
+  isNavigating() {
+    return this.mapProvider.isNavigating;
+  }
+
+  startNavigating() {
+    this.mapProvider.startNavigating();
+  }
 }
