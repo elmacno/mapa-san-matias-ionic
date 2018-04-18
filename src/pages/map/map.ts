@@ -1,15 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
+import { IonicPage, NavParams } from 'ionic-angular';
 import * as mapboxgl from 'mapbox-gl';
 
-import { MapboxProvider } from '../../providers/mapbox/mapbox';
+import { MapProvider } from '../../providers/map/map';
 import { LotsProvider, Lot } from '../../providers/lots/lots';
-
-const MAP_SETTINGS = {
-  container: 'map',
-  style: 'mapbox://styles/mapbox/streets-v10',
-  zoom: 16
-};
 
 @IonicPage()
 @Component({
@@ -20,29 +14,23 @@ export class MapPage {
   lot: Lot;
   map: mapboxgl.Map;
 
-  constructor(private navCtrl: NavController,
-              private navParams: NavParams,
-              private mapboxProvider: MapboxProvider,
-              lotsProvider: LotsProvider) {
-    lotsProvider
+  constructor(private navParams: NavParams,
+              private mapProvider: MapProvider,
+              private lotsProvider: LotsProvider) {
+  }
+
+  ionViewDidLoad() {
+    this.mapProvider.initialize();
+    this.lotsProvider
       .ready()
       .then(() => {
         try {
-          this.lot = lotsProvider.getLot(this.navParams.get('lotNumber'));
+          this.lot = this.lotsProvider.getLot(this.navParams.get('lotNumber'));
+          this.mapProvider.plotDirections(this.lot.coords);
         } catch(error) {
           console.log(error);
         }
       });
-  }
-
-  ionViewDidLoad() {
-    this.map = this.mapboxProvider.createMap(MAP_SETTINGS);
-    //   this.map = new mapboxgl.Map({
-    //     container: this.container,
-    //     style: this.style,
-    //     zoom: 16,
-    //     center: [-58.75139, -34.36074]
-    //   });
   }
 
 }

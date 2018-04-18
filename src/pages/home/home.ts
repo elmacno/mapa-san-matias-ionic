@@ -98,7 +98,7 @@ export class HomePage {
     }
   }
 
-  navigateTo(lotNumber: number) {
-    this.navCtrl.push(MapPage, {lotNumber: lotNumber});
+  navigateTo(lot: Lot) {
+    this.navCtrl.push(MapPage, {lotNumber: lot.number});
   }
 }

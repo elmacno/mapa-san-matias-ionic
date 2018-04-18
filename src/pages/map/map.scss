@@ -1,6 +1,17 @@
-page-map {
-  #map {
-    width: 100%;
-    height: 100%;
+ion-app.md {
+  page-map {
+    #map {
+      margin-top: $toolbar-md-height;
+      height: calc(100% - #{$toolbar-md-height});
+    }
+  }
+}
+
+ion-app.ios {
+  page-map {
+    #map {
+      margin-top: $toolbar-ios-height;
+      height: calc(100% - #{$toolbar-ios-height});
+    }
   }
 }

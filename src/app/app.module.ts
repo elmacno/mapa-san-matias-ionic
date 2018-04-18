@@ -13,6 +13,7 @@ import { ComponentsModule } from '../components/components.module';
 import { ProvidersModule } from '../providers/providers.module';
 import { PipesModule } from '../pipes/pipes.module';
 import { PagesModule } from '../pages/pages.module';
+import { MapProvider } from '../providers/map/map';
 
 export const firebaseConfig = {
   apiKey: "AIzaSyBmd7oWUcErKHPSSG4WRShfK7WvYjLo5Wo",
@@ -46,7 +47,8 @@ export const firebaseConfig = {
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
-    Diagnostic
+    Diagnostic,
+    MapProvider
   ]
 })
 export class AppModule {}
