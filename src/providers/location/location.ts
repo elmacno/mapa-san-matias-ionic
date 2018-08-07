@@ -2,6 +2,8 @@ import { Injectable } from '@angular/core';
 import { Geolocation } from '@ionic-native/geolocation';
 import { Events } from 'ionic-angular';
 
+import { GeolocationMock } from './geolocation.mock';
+
 export const FALLBACK_POSITION = {
   latitude: -34.360894,
   longitude: -58.750980
@@ -14,7 +16,7 @@ export class LocationProvider {
     current?: {latitude: number, longitude: number}
   };
 
-  constructor(private geolocation: Geolocation,
+  constructor(private geolocation: GeolocationMock,
               private events: Events) {
     this.position = {
       previous: null,
